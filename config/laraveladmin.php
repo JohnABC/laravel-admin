@@ -3,7 +3,7 @@
 return [
     'publish' => [
         'path' => [
-            'assets' => 'vendor' . DIRECTORY_SEPARATOR . 'laraveladmin'
+            'assets' => public_path('vendor' . DIRECTORY_SEPARATOR . 'laraveladmin')
         ]
     ],
 ];

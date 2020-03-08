@@ -2,6 +2,8 @@
 
 namespace LaravelAdmin;
 
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelAdminServiceProvider extends ServiceProvider
@@ -15,7 +17,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        //
+        $this->bootBladeDirective();
     }
 
     protected function path($path)
@@ -41,7 +43,20 @@ class LaravelAdminServiceProvider extends ServiceProvider
     protected function publishAssets()
     {
         $this->publishes([
-            $this->path('public') => $this->app['config']->get('laraveladmin.publishe.path.assets')
-        ]);
+            $this->path('public' . DIRECTORY_SEPARATOR . 'laraveladmin') => $this->app['config']->get('laraveladmin.publish.path.assets')
+        ], 'public');
+    }
+
+    protected function bootBladeDirective()
+    {
+        Blade::directive('css', function ($src) {
+            $attrs = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => asset(trim($src, '\'"'))];
+            return new HtmlString('<link' . \Html::attributes($attrs) . '>');
+        });
+
+        Blade::directive('js', function ($src) {
+            $attrs = ['src' => asset(trim($src, '\'"'))];
+            return new HtmlString('<script' . \Html::attributes($attrs) . '></script>');
+        });
     }
 }

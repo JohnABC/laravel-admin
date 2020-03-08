@@ -1,0 +1,30 @@
+{
+    "name": "johnabc/laravel-admin",
+    "description": "Laravel Admin",
+    "type": "library",
+    "require": {
+        "php": ">=7.0",
+        "illuminate/support": ">=5.2",
+        "laravel/framework": ">=5.2",
+        "laravelcollective/html": "^6.1"
+    },
+    "authors": [
+        {
+            "name": "JohnABC",
+            "email": "suiyongjie2008@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "LaravelAdmin\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelAdmin\\LaravelAdminServiceProvider"
+            ]
+        }
+    }
+}

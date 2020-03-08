@@ -1,0 +1,1 @@
+@extends('laraveladmin::layouts.layout')

@@ -4,7 +4,7 @@
 <div class="layui-side layui-side-menu">
     <div class="layui-side-scroll">
         <div class="layui-logo" lay-href="home/console.html">
-            <span>@yield('body-conent-menu-title', '宁禾健康')</span>
+            <span>@yield('body-conent-menu-title', env('APP_NAME'))</span>
         </div>
 
         <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">

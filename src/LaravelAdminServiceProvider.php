@@ -43,7 +43,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
     protected function publishAssets()
     {
         $this->publishes([
-            $this->path('public' . DIRECTORY_SEPARATOR . 'laraveladmin') => $this->app['config']->get('laraveladmin.publish.path.assets')
+            $this->path('public' . DIRECTORY_SEPARATOR . 'laraveladmin') => public_path(config('laraveladmin.publish.path.assets'))
         ], 'public');
     }
 

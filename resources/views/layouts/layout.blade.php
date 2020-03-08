@@ -21,7 +21,7 @@
     @show
     <script type="text/javascript">
         layui.config({
-            base: '{{ asset('third/layui') }}/'
+            base: '{{ asset(config('laraveladmin.publish.path.assets')) }}/'
         }).extend({
             index: 'lib/index'
         }).use('index');

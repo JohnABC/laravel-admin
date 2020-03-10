@@ -10,6 +10,8 @@ class LaravelAdminServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->registerLaravelAdmin();
+
         $this->publishConfigs();
         $this->publishViews();
         $this->publishAssets();
@@ -18,6 +20,13 @@ class LaravelAdminServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->bootBladeDirective();
+    }
+
+    public function registerLaravelAdmin()
+    {
+        $this->app->singleton('laraveladmin', function ($app) {
+            return new LaravelAdmin();
+        });
     }
 
     protected function path($path)
@@ -30,7 +39,7 @@ class LaravelAdminServiceProvider extends ServiceProvider
         $sourceConfigFile = $this->path('config' . DIRECTORY_SEPARATOR . 'laraveladmin.php');
         $this->publishes([
             $sourceConfigFile => config_path('laraveladmin.php')
-        ], 'config');
+        ], 'laraveladmin-config');
 
         $this->mergeConfigFrom($sourceConfigFile, 'laraveladmin');
     }
@@ -43,19 +52,26 @@ class LaravelAdminServiceProvider extends ServiceProvider
     protected function publishAssets()
     {
         $this->publishes([
-            $this->path('public' . DIRECTORY_SEPARATOR . 'laraveladmin') => public_path(config('laraveladmin.publish.path.assets'))
-        ], 'public');
+            $this->path('public' . DIRECTORY_SEPARATOR . 'laraveladmin') => public_path(config('laraveladmin.publish.assets.path'))
+        ], 'laraveladmin-public');
     }
 
     protected function bootBladeDirective()
     {
         Blade::directive('css', function ($src) {
-            $attrs = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet', 'href' => asset(trim($src, '\'"'))];
+            $attrs = [
+                'media' => 'all',
+                'type' => 'text/css',
+                'rel' => 'stylesheet',
+                'href' => $this->app->make('laraveladmin')->assetsUrl(trim($src, '\'"'))
+            ];
+
             return new HtmlString('<link' . \Html::attributes($attrs) . '>');
         });
 
         Blade::directive('js', function ($src) {
-            $attrs = ['src' => asset(trim($src, '\'"'))];
+            $attrs = ['src' => $this->app->make('laraveladmin')->assetsUrl(trim($src, '\'"'))];
+
             return new HtmlString('<script' . \Html::attributes($attrs) . '></script>');
         });
     }

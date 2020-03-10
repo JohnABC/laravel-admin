@@ -26,5 +26,14 @@
                 "LaravelAdmin\\LaravelAdminServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-package-install": [
+            "php artisan vendor:publish --tag=laraveladmin-config --force",
+            "php artisan vendor:publish --tag=laraveladmin-public --force"
+        ],
+        "post-package-update": [
+            "php artisan vendor:publish --tag=laraveladmin-public --force"
+        ]
     }
 }

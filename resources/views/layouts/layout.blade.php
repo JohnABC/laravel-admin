@@ -7,9 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
+    @php
+        $laraveladminAssetsBaseUrl = app()['laraveladmin']->assetsUrl();
+        $laraveladminBasicCssUrl = $laraveladminAssetsBaseUrl . '/layui/css/layui.css';
+        $laraveladminAdminCssUrl = $laraveladminAssetsBaseUrl . '/style/admin.css';
+        $laraveladminBasicJsUrl = $laraveladminAssetsBaseUrl . '/layui/layui.js';
+    @endphp
     @section('css')
-        @css('vendor/laraveladmin/layui/css/layui.css')
-        @css('vendor/laraveladmin/style/admin.css')
+        @css({{ $laraveladminBasicCssUrl }})
+        @css({{ $laraveladminAdminCssUrl }})
     @show
     @section('js-title')
     @show
@@ -17,11 +23,11 @@
 <body class="@yield('body-class', 'layui-layout-body')">
     @yield('body-content')
     @section('js-foot')
-        @js('vendor/laraveladmin/layui/layui.js')
+        @js({{  $laraveladminBasicJsUrl }})
     @show
     <script type="text/javascript">
         layui.config({
-            base: '{{ asset(config('laraveladmin.publish.path.assets')) }}/'
+            base: '@css({{ $laraveladminAssetsBaseUrl }})/'
         }).extend({
             index: 'lib/index'
         }).use('index');

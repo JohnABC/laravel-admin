@@ -24,7 +24,10 @@
         "laravel": {
             "providers": [
                 "LaravelAdmin\\LaravelAdminServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "LavavelAdmin": "LaravelAdmin\\Facades\\LaravelAdmin"
+            }
         }
     },
     "scripts": {

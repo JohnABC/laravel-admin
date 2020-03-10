@@ -14,7 +14,7 @@
     @section('js-title')
     @show
 
-    <title>@yield('title', env('APP_NAME' . '-后台管理系统'))</title>
+    <title>@yield('title', env('APP_NAME') . '-后台管理系统')</title>
 </head>
 <body class="@yield('body-class', 'layui-layout-body')">
     @yield('body-content')

@@ -23,7 +23,7 @@ class LaravelAdmin
         if ($padConfigPath) {
             $configPath = trim(strtr(config('laraveladmin.publish.assets.path'), '\//', '//'), '/');
             if (strpos($path, $configPath) !== 0) {
-                $path = $configPath . '/' . $path;
+                $path = trim($configPath . '/' . $path, '/');
             }
         }
 

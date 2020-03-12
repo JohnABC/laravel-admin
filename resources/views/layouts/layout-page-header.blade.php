@@ -37,6 +37,9 @@
         @show
     </ul>
     <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+        @section('laraveladmin-header-message-before')
+        @show
+        @section('laraveladmin-header-message')
         <li class="layui-nav-item" lay-unselect>
             <a lay-href="{{ \LaravelAdmin::getHeaderMessage('link') }}" layadmin-event="message" lay-text="{{ \LaravelAdmin::getHeaderMessage('title') }}">
                 <i class="layui-icon {{ \LaravelAdmin::getHeaderMessage('icon') }}"></i>
@@ -46,35 +49,52 @@
                 @endif
             </a>
         </li>
+        @show
+        @section('laraveladmin-header-theme-before')
+        @show
+        @section('laraveladmin-header-theme')
         <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="theme">
                 <i class="layui-icon layui-icon-theme"></i>
             </a>
         </li>
+        @show
+        @section('laraveladmin-header-note-before')
+        @show
+        @section('laraveladmin-header-note')
         <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="note">
                 <i class="layui-icon layui-icon-note"></i>
             </a>
         </li>
+        @show
+        @section('laraveladmin-header-screen-before')
+        @show
+        @section('laraveladmin-header-screen')
         <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="fullscreen">
                 <i class="layui-icon layui-icon-screen-full"></i>
             </a>
         </li>
+        @show
+        @section('laraveladmin-header-user-before')
+        @show
+        @section('laraveladmin-header-user')
         <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
                 <cite>{{ \LaravelAdmin::getHeaderUser('user') }}</cite>
             </a>
             <dl class="layui-nav-child">
                 @foreach (\LaravelAdmin::getHeaderUser('list') as $laraveladminHeaderUserLine)
-                    @if ($laraveladminHeaderUserLine['hr'])
+                    @if (!empty($laraveladminHeaderUserLine['hr']))
                         <hr />
                     @else
-                        <dd><a {{ \LaravelAdmin::convertLink($laraveladminHeaderUserLine) }}>{{ $laraveladminHeaderUserLine['title'] }}</a></dd>
+                        <dd><a {!! \LaravelAdmin::convertLink($laraveladminHeaderUserLine) !!}>{{ $laraveladminHeaderUserLine['title'] }}</a></dd>
                     @endif
                 @endforeach
             </dl>
         </li>
+        @show
         {{--
         <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>

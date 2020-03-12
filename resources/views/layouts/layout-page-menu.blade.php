@@ -1,12 +1,15 @@
 <!-- 侧边菜单 -->
 <!-- 包含箭头上一级 layui-nav-itemed -->
 <!-- 菜单 layui-this -->
+
 <div class="layui-side layui-side-menu">
     <div class="layui-side-scroll">
-        <div class="layui-logo" lay-href="home/console.html">
-            <span>@yield('body-conent-menu-title', env('APP_NAME'))</span>
+        <div class="layui-logo" @if (\LaravelAdmin::getLogoLink()) lay-href="{{ \LaravelAdmin::getLogoLink() }}" @endif>
+            <span>{{ \LaravelAdmin::getLogo() }}</span>
         </div>
 
+        {!! \LaravelAdmin::getMenuHtml() !!}
+        {{--
         <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
             <li data-name="home" class="layui-nav-item">
                 <a href="javascript:;" lay-tips="主页" lay-direction="2">
@@ -337,5 +340,6 @@
                 </a>
             </li>
         </ul>
+        --}}
     </div>
 </div>

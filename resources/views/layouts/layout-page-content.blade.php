@@ -1,6 +1,6 @@
 <!-- 主体内容 -->
 <div class="layui-body" id="LAY_app_body">
     <div class="layadmin-tabsbody-item layui-show">
-        <iframe src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+        <iframe src="{{ \LaravelAdmin::getHomeLink() }}" frameborder="0" class="layadmin-iframe"></iframe>
     </div>
 </div>

@@ -2,6 +2,13 @@
 @section('body-content')
     <div id="@yield('body-content-class', 'LAY_app')">
         <div class="layui-layout layui-layout-admin">
+            @foreach (['header', 'menu', 'tags', 'content', 'assists'] as $laraveladminPageLayoutPart)
+                @php
+                    $laraveladminPageLayout = \LaravelAdmin::getPageLayoutPart($laraveladminPageLayoutPart);
+                @endphp
+                @include($laraveladminPageLayout)
+            @endforeach
+            {{--
             <!-- 头部区域 -->
             @include('laraveladmin::layouts.layout-page-header')
             <!-- 侧边菜单 -->
@@ -12,6 +19,7 @@
             @include('laraveladmin::layouts.layout-page-content')
             <!-- 辅助元素，一般用于移动设备下遮罩 -->
             @include('laraveladmin::layouts.layout-page-assist')
+            --}}
         </div>
     </div>
 @endsection

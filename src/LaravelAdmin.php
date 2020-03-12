@@ -4,10 +4,20 @@ namespace LaravelAdmin;
 
 class LaravelAdmin
 {
+    public const TARGET_FLAG_TAG = 'tag';
+    public const TARGET_FLAG_SELF = 'self';
+    public const TARGET_FLAG_BLANK = 'blank';
+
     protected $menu = [];
     protected $logo = '';
     protected $logoLink = '';
     protected $homeLink = '';
+
+    protected $headerWeb = [];
+    protected $headerSearch = [];
+    protected $headerMessage = [];
+    protected $headerUser = [];
+
     protected $pageLayoutParts = [
         'header' => 'laraveladmin::layouts.layout-page-header',
         'menu' => 'laraveladmin::layouts.layout-page-menu',
@@ -15,8 +25,6 @@ class LaravelAdmin
         'content' => 'laraveladmin::layouts.layout-page-content',
         'assist' => 'laraveladmin::layouts.layout-page-assist',
     ];
-
-
 
     public function isUrl($path)
     {
@@ -53,7 +61,7 @@ class LaravelAdmin
 
     public function getLogo()
     {
-        return $this->headerTitle ?: view()->shared('laraveladmin-logo', env('APP_NAME'));
+        return $this->logo ?: view()->shared('laraveladmin-logo', env('LARAVELADMIN_LOGO', env('APP_NAME')));
     }
 
     public function bindLogoLink($logoLink)
@@ -65,7 +73,7 @@ class LaravelAdmin
 
     public function getLogoLink()
     {
-        return $this->logoLink ?: view()->shared('laraveladmin-logo-link', '');
+        return $this->logoLink ?: view()->shared('laraveladmin-logo-link', env('LARAVELADMIN_LOGO_LINK', 'https://www.google.com?logo'));
     }
 
     public function bindHomeLink($homeLink)
@@ -77,7 +85,122 @@ class LaravelAdmin
 
     public function getHomeLink()
     {
-        return $this->homeLink ?: view()->shared('laraveladmin-home-link', '');
+        return $this->homeLink ?: view()->shared('laraveladmin-home-link', env('LARAVELADMIN_HOME_LINK', 'https://www.google.com?home-link'));
+    }
+
+    public function bindHeaderWeb($link, $title = '网站', $icon = 'layui-icon-website')
+    {
+        if (is_array($link)) {
+            $this->headerWeb = array_merge($this->headerWeb, $link);
+        } else {
+            $this->headerWeb = ['link' => $link, 'title' => $title, 'icon' => $icon];
+        }
+
+        return $this;
+    }
+
+    public function getHeaderWeb($key = null)
+    {
+        $default = [
+            'link' => view()->shared('laraveladmin-header-web-link', env('LARAVELADMIN_HEADER_WEB_LINK', 'https://www.google.com?header-web-link')),
+            'title' => '网站',
+            'icon' => 'layui-icon-website'
+        ];
+
+        $rtn = array_merge($default, $this->headerWeb);
+
+        return $key ? $rtn[$key] : $rtn;
+    }
+
+    public function bindHeaderSearch($link, $title = '搜索...')
+    {
+        if (is_array($link)) {
+            $this->headerSearch = array_merge($this->headerSearch, $link);
+        } else {
+            $this->headerSearch = ['link' => $link, 'title' => $title];
+        }
+
+        return $this;
+    }
+
+    public function getHeaderSearch($key = null)
+    {
+        $default = [
+            'link' => view()->shared('laraveladmin-header-search-link', env('LARAVELADMIN_HEADER_SEARCH_LINK', 'https://www.google.com/search?q=')),
+            'title' => '搜索...',
+        ];
+
+        $rtn = array_merge($default, $this->headerSearch);
+
+        return $key ? $rtn[$key] : $rtn;
+    }
+
+    public function bindHeaderMessage($link, $title = '消息中心', $icon = 'layui-icon-notice')
+    {
+        if (is_array($link)) {
+            $this->headerMessage = array_merge($this->headerMessage, $link);
+        } else {
+            $this->headerMessage = ['link' => $link, 'title' => $title, 'icon' => $icon];
+        }
+
+        return $this;
+    }
+
+    public function bindHeaderMessageDot($dot = true)
+    {
+        $this->headerMessage['dot'] = $dot;
+
+        return $this;
+    }
+
+    public function getHeaderMessage($key = null)
+    {
+        $default = [
+            'link' => view()->shared('laraveladmin-header-message-link', env('LARAVELADMIN_HEADER_MESSAGE_LINK', 'https://www.google.com/?header-message-link')),
+            'title' => '消息中心',
+            'icon' => 'layui-icon-notice',
+            'dot' => false
+        ];
+
+        $rtn = array_merge($default, $this->headerMessage);
+
+        return $key ? $rtn[$key] : $rtn;
+    }
+
+    public function buildHeaderUserLine($title = '', $link = null, $target = self::TARGET_FLAG_TAG)
+    {
+        if (!$title) {
+            return ['hr' => true];
+        }
+
+        return ['title' => $title, 'link' => $link, 'target' => $target];
+    }
+
+    public function bindHeaderUser($user, ...$args)
+    {
+        if (is_array($user)) {
+            $this->headerUser = array_merge($this->headerUser, $user);
+        } else {
+            $this->headerUser = ['user' => $user, 'list' => $args];
+        }
+
+        return $this;
+    }
+
+    public function getHeaderUser($key = null)
+    {
+        $default = [
+            'user' => '随永杰',
+            'list' => [
+                ['title' => '基本资料'],
+                ['hr' => true],
+                ['title' => '退出', 'target' => static::TARGET_FLAG_SELF]
+            ]
+        ];
+
+        $rtn = array_merge($default, $this->headerUser);
+
+        return $key ? $rtn[$key] : $rtn;
     }
 
     public function bindPageLayoutPart($part, $layout)
@@ -113,18 +236,18 @@ class LaravelAdmin
                 'subMenus' => [
                     [
                         'name' => 'GitHub',
-                        'route' => 'https://github.com/JohnABC/laravel-admin'
+                        'link' => 'https://github.com/JohnABC/laravel-admin'
                     ],
                     [
                         'name' => 'Packagist',
                         'subMenus' => [
                             [
                                 'name' => 'LaravelAdmin',
-                                'route' => 'https://packagist.org/packages/johnabc/laravel-admin'
+                                'link' => 'https://packagist.org/packages/johnabc/laravel-admin'
                             ],
                             [
                                 'name' => 'JohnABC',
-                                'route' => 'https://packagist.org/users/John_ABC/',
+                                'link' => 'https://packagist.org/users/John_ABC/',
                             ]
                         ],
                     ]
@@ -147,10 +270,10 @@ class LaravelAdmin
                 continue;
             }
 
-            [$linkHref, $linkLayHref] = $this->convertLink($menu);
+            $link = $this->convertLink($menu);
 
             $html .= "<{$innerTag} class='{$innerTagClass}'>";
-            $html .= "<a {$linkHref} {$linkLayHref}>";
+            $html .= "<a {$link}>";
             if (!empty($menu['icon'])) {
                 $html .= "<i class='layui-icon layui-icon-{$menu['icon']}'></i>";
             }
@@ -169,11 +292,24 @@ class LaravelAdmin
         return $html;
     }
 
-    public function convertLink($config, $blankField = 'blank', $linkField = 'route')
+    public function convertLink($config, $linkField = 'link', $targetField = 'target')
     {
-        $href = empty($config[$blankField]) || empty($config[$linkField]) ? "href='javascript:;'" : "href='{$config[$linkField]}'";
-        $layHref = empty($config[$blankField]) && !empty($config[$linkField]) ? "lay-href='{$config[$linkField]}'" : '';
+        $href = "href='javascript:;'";
+        $layHref = $blank = '';
 
-        return [$href, $layHref];
+        $targetFlag = $config[$targetField] ?? static::TARGET_FLAG_TAG;
+        $hasLink = !empty($config[$linkField]);
+        if ($targetFlag == static::TARGET_FLAG_TAG) {
+            $layHref = $hasLink ? "lay-href='{$config[$linkField]}'" : '';
+        } elseif (in_array($targetFlag, [static::TARGET_FLAG_SELF, static::TARGET_FLAG_BLANK])) {
+            if ($hasLink) {
+                $href = "href='{$config[$linkField]}'";
+                if ($targetFlag == static::TARGET_FLAG_BLANK) {
+                    $blank = "target='_blank'";
+                }
+            }
+        }
+
+        return " {$href} {$layHref} {$blank}";
     }
 }

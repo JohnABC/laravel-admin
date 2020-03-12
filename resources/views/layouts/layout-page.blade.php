@@ -2,7 +2,7 @@
 @section('body-content')
     <div id="@yield('body-content-class', 'LAY_app')">
         <div class="layui-layout layui-layout-admin">
-            @foreach (['header', 'menu', 'tags', 'content', 'assists'] as $laraveladminPageLayoutPart)
+            @foreach (['header', 'menu', 'tags', 'content', 'assist'] as $laraveladminPageLayoutPart)
                 @php
                     $laraveladminPageLayout = \LaravelAdmin::getPageLayoutPart($laraveladminPageLayoutPart);
                 @endphp

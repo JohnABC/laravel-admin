@@ -23,3 +23,10 @@
         </div>
     </div>
 @endsection
+@section('js-foot-text')
+    <script type="text/javascript">
+        layui.extend({
+            index: 'lib/index'
+        }).use('index');
+    </script>
+@endsection

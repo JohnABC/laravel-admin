@@ -19,14 +19,14 @@
 </head>
 <body class="@yield('body-class', 'layui-layout-body')">
     @yield('body-content')
-    @section('js-foot')
+    @section('js-foot-src')
     @show
     <script type="text/javascript">
         layui.config({
             base: '{{ \LaravelAdmin::assetsUrl() }}/'
-        }).extend({
-            index: 'lib/index'
-        }).use('index');
+        })
     </script>
+    @section('js-foot-text')
+    @show
 </body>
 </html>

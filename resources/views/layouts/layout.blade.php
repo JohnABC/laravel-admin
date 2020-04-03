@@ -12,6 +12,7 @@
     @section('css')
     @show
     @section('js-title')
+    <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
     @show
 
     <title>@yield('title', env('APP_NAME') . '-后台管理系统')</title>
@@ -19,7 +20,6 @@
 <body class="@yield('body-class', 'layui-layout-body')">
     @yield('body-content')
     @section('js-foot')
-        <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
     @show
     <script type="text/javascript">
         layui.config({

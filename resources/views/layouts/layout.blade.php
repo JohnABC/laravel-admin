@@ -9,24 +9,24 @@
     <link media="all" type="text/css" rel="stylesheet" href="{{ \LaravelAdmin::assetsUrl('layui/css/layui.css') }}" />
     <link media="all" type="text/css" rel="stylesheet" href="{{ \LaravelAdmin::assetsUrl('style/admin.css') }}" />
 
-    @section('css')
-    @show
-    @section('js-title')
-    <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
-    @show
+    @stack('laraveladmin-css')
 
+    <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
+
+    @stack('laraveladmin-js-title')
     <title>@yield('title', env('APP_NAME') . '-后台管理系统')</title>
 </head>
-<body class="@yield('body-class', 'layui-layout-body')">
-    @yield('body-content')
-    @section('js-foot-src')
-    @show
+<body class="@yield('laraveladmin-body-class', 'layui-layout-body')">
+    @yield('laraveladmin-body-content')
+
+    @stack('laraveladmin-js-foot-src')
+
     <script type="text/javascript">
         layui.config({
             base: '{{ \LaravelAdmin::assetsUrl() }}/'
         })
     </script>
-    @section('js-foot-text')
-    @show
+
+    @stack('laraveladmin-js-foot-text')
 </body>
 </html>

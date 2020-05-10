@@ -11,7 +11,7 @@
 
     @stack('laraveladmin-css')
 
-    <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
+    <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.all.js') }}"></script>
 
     @stack('laraveladmin-js-title')
     <title>@yield('title', env('APP_NAME') . '-后台管理系统')</title>

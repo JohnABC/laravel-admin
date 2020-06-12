@@ -14,7 +14,7 @@
     <script type="text/javascript" src="{{ \LaravelAdmin::assetsUrl('layui/layui.js') }}"></script>
 
     @stack('laraveladmin-js-title')
-    <title>@yield('title', env('APP_NAME') . '-后台管理系统')</title>
+    <title>{{ $title ?? env('APP_NAME') }}</title>
 </head>
 <body class="@yield('laraveladmin-body-class', 'layui-layout-body')">
     @yield('laraveladmin-body-content')
